@@ -201,6 +201,21 @@ class ST7920:
         else:
             self.center_text(54, text, font=self.small_font)
 
+    def label_value(self, y, label, value, x_label=4, x_value=124):
+        self.text(x_label, y, label)
+        self.right_text(x_value, y, value)
+
+    def progress_bar(self, x, y, width, height, value, max_value=100):
+        value = max(0, min(value, max_value))
+        fill_width = int((width - 2) * value / max_value)
+
+        self.rectangle(x, y, x + width - 1, y + height - 1)
+
+        if fill_width > 0:
+            self.filled_rectangle(x + 1, y + 1, x + fill_width, y + height - 2)
+
+
+
     def show(self, partial=True):
         buffer = self._image_to_buffer(self.image)
         if partial:
