@@ -1,0 +1,50 @@
+page_interval: 8
+pages:
+  - title: CASA
+    icon: mdi:home
+    cards:
+      - type: entities
+        y: 18
+        items:
+          - name: Living
+            entity: sensor.living_temperature
+            default: 24.5
+            unit: " C"
+            icon: mdi:thermometer
+          - name: Humedad
+            entity: sensor.living_humidity
+            default: 55
+            unit: " %"
+            icon: mdi:water-percent
+          - name: MQTT
+            value: OK
+            icon: mdi:mqtt
+      - type: progress
+        entity: sensor.signal
+        value: 72
+        y: 55
+        width: 120
+        height: 7
+
+  - title: SERVIDOR
+    icon: mdi:server
+    cards:
+      - type: entities
+        y: 18
+        items:
+          - name: CPU
+            entity: sensor.cpu
+            default: 18
+            unit: " %"
+            icon: mdi:flash
+          - name: RAM
+            entity: sensor.ram
+            default: 43
+            unit: " %"
+            icon: mdi:server
+          - name: Red
+            value: OK
+            icon: mdi:wifi
+      - type: spinner
+        x: 108
+        y: 48
