@@ -34,3 +34,23 @@ class FooterWidget:
 
     def draw(self, display):
         display.footer(self.text)
+
+
+class EntityWidget:
+    def __init__(self, y, icon, name, state, unit=None):
+        self.y = y
+        self.icon = icon
+        self.name = name
+        self.state = state
+        self.unit = unit
+
+    def draw(self, display):
+        value = str(self.state)
+        if self.unit:
+            value += f" {self.unit}"
+
+        if hasattr(display, "icon"):
+            display.icon(4, self.y, self.icon)
+
+        display.text(20, self.y, self.name[:10])
+        display.right_text(124, self.y, value)

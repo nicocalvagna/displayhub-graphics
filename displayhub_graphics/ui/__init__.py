@@ -1,2 +1,3 @@
 from .page import Page
-from .widgets import LabelValueWidget, ProgressWidget, FooterWidget
+from .widgets import LabelValueWidget, ProgressWidget, FooterWidget, EntityWidget
+

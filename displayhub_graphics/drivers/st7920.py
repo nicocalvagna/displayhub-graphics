@@ -1,11 +1,11 @@
 import time
 from contextlib import contextmanager
 from pathlib import Path
+from displayhub_graphics.icons.mdi import MDI_ICONS
 
 import lgpio
 from PIL import Image, ImageDraw, ImageFont
-
-from displayhub_graphics.icons.mdi import MDIIconManager
+from displayhub_graphics.icons.mdi import MDI_ICONS
 
 
 class ST7920:
@@ -40,7 +40,7 @@ class ST7920:
         self.font = self._load_font(font_path, font_size)
         self.small_font = self._load_font(font_path, 8)
         self.big_font = self._load_font(font_path, 16)
-        self.icons = MDIIconManager(mdi_font_path=mdi_font_path, default_size=icon_size)
+        
 
         self._init_lcd()
         if auto_clear:
@@ -213,6 +213,28 @@ class ST7920:
 
         if fill_width > 0:
             self.filled_rectangle(x + 1, y + 1, x + fill_width, y + height - 2)
+
+
+    def icon(self, x, y, name, scale=1):
+        pattern = MDI_ICONS.get(name)
+        if not pattern:
+            return
+
+        for row, line in enumerate(pattern):
+            for col, bit in enumerate(line):
+                if bit == "1":
+                    px = x + col * scale
+                    py = y + row * scale
+                    if scale == 1:
+                        if 0 <= px < self.WIDTH and 0 <= py < self.HEIGHT:
+                            self.image.putpixel((px, py), 0)
+                    else:
+                        self.draw.rectangle(
+                            (px, py, px + scale - 1, py + scale - 1),
+                            fill=0,
+                        )
+
+
 
 
 
