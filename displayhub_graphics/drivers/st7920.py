@@ -1,11 +1,9 @@
 import time
 from contextlib import contextmanager
 from pathlib import Path
-from displayhub_graphics.icons.mdi import MDI_ICONS
 
 import lgpio
 from PIL import Image, ImageDraw, ImageFont
-from displayhub_graphics.icons.mdi import MDI_ICONS
 
 
 class ST7920:
@@ -173,10 +171,7 @@ class ST7920:
         if fill_width > 0:
             self.filled_rectangle(x + 1, y + 1, x + fill_width, y + height - 2)
 
-    def icon(self, x, y, name, size=None):
-        img = self.icons.get(name, size=size)
-        self.image.paste(img, (int(x), int(y)))
-
+    
     def row(self, y, icon, label, value=None):
         self.icon(4, y, icon, size=12)
         self.text(19, y - 1, label)
@@ -215,27 +210,9 @@ class ST7920:
             self.filled_rectangle(x + 1, y + 1, x + fill_width, y + height - 2)
 
 
-    def icon(self, x, y, name, scale=1):
-        pattern = MDI_ICONS.get(name)
-        if not pattern:
-            return
-
-        for row, line in enumerate(pattern):
-            for col, bit in enumerate(line):
-                if bit == "1":
-                    px = x + col * scale
-                    py = y + row * scale
-                    if scale == 1:
-                        if 0 <= px < self.WIDTH and 0 <= py < self.HEIGHT:
-                            self.image.putpixel((px, py), 0)
-                    else:
-                        self.draw.rectangle(
-                            (px, py, px + scale - 1, py + scale - 1),
-                            fill=0,
-                        )
-
-
-
+    def bitmap(self, x, y, image):
+        img = image.convert("1")
+        self.image.paste(img, (x, y))
 
 
     def show(self, partial=True):

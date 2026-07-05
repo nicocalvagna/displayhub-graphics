@@ -79,6 +79,10 @@ class Simulator:
         self.text(x_label, y, label)
         self.right_text(x_value, y, value)
 
+    def bitmap(self, x, y, image):
+        img = image.convert("1")
+        self.image.paste(img, (x, y))
+
     def show(self, partial=True):
         self.image.save(self.output_path)
         return self.HEIGHT, self.WIDTH * self.HEIGHT // 8
